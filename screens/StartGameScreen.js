@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-import { View, Text, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import Card from "../components/Card";
 import colours from "../constants/colours";
 import Input from "../components/Input";
@@ -8,40 +15,55 @@ import Input from "../components/Input";
 const StartGameScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
 
-  const numberInputHandler = (inputText) => {};
+  const numberInputHandler = (inputText) => {
+    // drop any non numeric value
+    setEnteredValue(inputText.replace(/[^0-9]/g, ""));
+  };
+
+  //TouchableWithoutFeedback, able to "click" outside keyboard and close
 
   return (
-    <View style={styles.screen}>
-      <Text style={styles.title}>Start a New Game!!!</Text>
-      <Card style={styles.inputContainer}>
-        <View style={styles.inputContainer}>
-          <Text>Select a number</Text>
-          <Input
-            style={styles.input}
-            // for android
-            blurOnSubmit
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="number-pad"
-            maxLength={2}
-            onChangeText={numberInputHandler}
-            value={enteredValue}
-          />
-          <View style={styles.buttonContainer}>
-            <View style={styles.button}>
-              <Button title="Reset" onPress={() => {}} color={colours.accent} />
-            </View>
-            <View style={styles.button}>
-              <Button
-                title="Confirm"
-                onPress={() => {}}
-                color={colours.primary}
-              />
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.screen}>
+        <Text style={styles.title}>Start a New Game!!!</Text>
+        <Card style={styles.inputContainer}>
+          <View style={styles.inputContainer}>
+            <Text>Select a number</Text>
+            <Input
+              style={styles.input}
+              // for android
+              blurOnSubmit
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="number-pad"
+              maxLength={2}
+              onChangeText={numberInputHandler}
+              value={enteredValue}
+            />
+            <View style={styles.buttonContainer}>
+              <View style={styles.button}>
+                <Button
+                  title="Reset"
+                  onPress={() => {}}
+                  color={colours.accent}
+                />
+              </View>
+              <View style={styles.button}>
+                <Button
+                  title="Confirm"
+                  onPress={() => {}}
+                  color={colours.primary}
+                />
+              </View>
             </View>
           </View>
-        </View>
-      </Card>
-    </View>
+        </Card>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
