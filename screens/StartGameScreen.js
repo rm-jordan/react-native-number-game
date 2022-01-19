@@ -14,10 +14,29 @@ import Input from "../components/Input";
 
 const StartGameScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+  const [selectedNumber, setSelectedNumber] = useState();
 
   const numberInputHandler = (inputText) => {
     // drop any non numeric value
     setEnteredValue(inputText.replace(/[^0-9]/g, ""));
+  };
+
+  const resetInputHandler = () => {
+    setEnteredValue("");
+    // when user resets values arent confirmed
+    setConfirmed(false);
+  };
+
+  const confirmInputHandler = () => {
+    // sets only positive numerical values allowed & lower than 99
+    const chosenNumber = parseInt(enteredValue);
+    if (chosenNumber === NaN || chosenNumber <= 0 || chosenNumber > 99) {
+      return;
+    }
+    setConfirmed(true);
+    setSelectedNumber(chosenNumber);
+    setEnteredValue("");
   };
 
   //TouchableWithoutFeedback, able to "click" outside keyboard and close
@@ -48,14 +67,14 @@ const StartGameScreen = (props) => {
               <View style={styles.button}>
                 <Button
                   title="Reset"
-                  onPress={() => {}}
+                  onPress={resetInputHandler}
                   color={colours.accent}
                 />
               </View>
               <View style={styles.button}>
                 <Button
                   title="Confirm"
-                  onPress={() => {}}
+                  onPress={confirmInputHandler}
                   color={colours.primary}
                 />
               </View>
