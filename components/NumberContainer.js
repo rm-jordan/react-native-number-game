@@ -4,9 +4,11 @@ import { View, Text, StyleSheet } from "react-native";
 import colours from "../constants/colours";
 
 const NumberContainer = (props) => {
-  <View style={styles.container}>
-    <Text style={styles.number}>{props.children}</Text>
-  </View>;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.number}>{props.children}</Text>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
