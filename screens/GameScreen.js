@@ -22,6 +22,9 @@ const GameScreen = (props) => {
     generateRandomBetween(1, 100, props.userChoice)
   );
 
+  const currentLow = useRef(1);
+  const currentHigh = useRef(100);
+
   const nextGuessHandler = (direction) => {
     if (
       (direction === "lower" && currentGuess < props.userChoice) ||
@@ -33,8 +36,17 @@ const GameScreen = (props) => {
       return;
     }
     if (direction === "lower") {
-      generateRandomBetween(1);
+      currentHigh.current = currentGuess;
+    } else {
+      currentLow.current = currentGuess;
     }
+    // exclude currentGuess from comp search (set boundary for comp guess)
+    const nextNumber = generateRandomBetween(
+      currentLow.current,
+      currentHigh.current,
+      currentGuess
+    );
+    setCurrentGuess(nextNumber);
   };
 
   return (
